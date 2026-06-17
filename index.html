@@ -133,7 +133,7 @@
             padding: 15px;
             text-align: center;
             color: #bdc3c7;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .ad-label { font-size: 11px; font-weight: bold; color: #bdc3c7; margin-bottom: 5px; }
         .ad-placeholder-text { font-size: 12px; color: #bdc3c7; line-height: 1.4; }
@@ -144,11 +144,30 @@
             text-align: left;
             padding: 0 10px;
             box-sizing: border-box;
+            margin-bottom: 15px; /* 看板リンクとのスキマ */
         }
         .disclaimer-text {
             font-size: 11px;
             color: #95a5a6;
             line-height: 1.5;
+        }
+
+        /* 【追加：開発者看板リンクのデザイン】 */
+        .author-box {
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+        }
+        .author-link {
+            font-size: 12px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .author-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -162,7 +181,6 @@
             <input type="number" id="drawing-val" value="50" min="0">
         </div>
 
-        <!-- 【改造ポイント】プルダウンをやめて、自由に入力できる数値型（input）に変更 -->
         <div class="input-group">
             <label>② 現在の図面の縮尺 (1 / ◯)</label>
             <input type="number" id="current-scale" value="50" min="1">
@@ -188,6 +206,7 @@
         </div>
     </div>
 
+    <!-- 広告枠 -->
     <div class="ad-space-box">
         <div class="ad-label">Sponsored</div>
         <div class="ad-placeholder-text">
@@ -196,11 +215,19 @@
         </div>
     </div>
 
+    <!-- 注意書き -->
     <div class="disclaimer-box">
         <div class="disclaimer-text">
             【ご利用上の注意】<br>
             本ツールは個人が開発した簡易計算用シミュレーターです。計算結果の正確性には万全を期しておりますが、実際の施工、発注、および実務で使用される際は必ずダブルチェックを行ってください。本ツールの利用によって生じた損害や不利益について、開発者は一切の責任を負いません。
         </div>
+    </div>
+
+    <!-- 【追加：ココアさんのX（Twitter）へ繋ぐ未来の看板】 -->
+    <div class="author-box">
+        <a class="author-link" href="https://x.comcocoa_next7" target="_blank">
+            🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
+        </a>
     </div>
 
     <script>
@@ -214,7 +241,6 @@
 
         calcBtn.addEventListener("click", () => {
             const drawingVal = parseFloat(document.getElementById("drawing-val").value) || 0;
-            // パルスの整数取得（記入型に合わせた安全処理）
             const currentScale = parseInt(document.getElementById("current-scale").value) || 1;
             const targetScale = parseInt(document.getElementById("target-scale").value) || 1;
 
