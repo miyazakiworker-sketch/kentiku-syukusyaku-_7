@@ -33,7 +33,7 @@
 
         h1 {
             color: #e67e22; 
-            font-size: 20px;
+            font-size: 19px;
             margin-bottom: 20px;
             border-bottom: 3px solid #e67e22;
             padding-bottom: 10px;
@@ -54,7 +54,7 @@
             width: 55%;
         }
 
-        .input-group input, .input-group select {
+        .input-group input {
             width: 40%;
             padding: 8px 12px;
             border: 2px solid #bdc3c7;
@@ -133,12 +133,11 @@
             padding: 15px;
             text-align: center;
             color: #bdc3c7;
-            margin-bottom: 20px; /* 保険用の文字とのスキマ */
+            margin-bottom: 20px;
         }
         .ad-label { font-size: 11px; font-weight: bold; color: #bdc3c7; margin-bottom: 5px; }
         .ad-placeholder-text { font-size: 12px; color: #bdc3c7; line-height: 1.4; }
 
-        /* 【追加：保険用のデザイン】 */
         .disclaimer-box {
             max-width: 440px;
             width: 100%;
@@ -148,7 +147,7 @@
         }
         .disclaimer-text {
             font-size: 11px;
-            color: #95a5a6; /* 目立ちすぎないうっすらしたグレー */
+            color: #95a5a6;
             line-height: 1.5;
         }
     </style>
@@ -163,28 +162,15 @@
             <input type="number" id="drawing-val" value="50" min="0">
         </div>
 
+        <!-- 【改造ポイント】プルダウンをやめて、自由に入力できる数値型（input）に変更 -->
         <div class="input-group">
-            <label>② 現在の図面の縮尺 (1 / ?)</label>
-            <select id="current-scale">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="50" selected>50</option>
-                <option value="100">100</option>
-                <option value="200">200</option>
-            </select>
+            <label>② 現在の図面の縮尺 (1 / ◯)</label>
+            <input type="number" id="current-scale" value="50" min="1">
         </div>
 
         <div class="input-group">
-            <label>③ 変換したい目的の縮尺 (1 / ?)</label>
-            <select id="target-scale">
-                <option value="10">10</option>
-                <option value="20" selected>20</option>
-                <option value="30">30</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="200">200</option>
-            </select>
+            <label>③ 変換したい目的の縮尺 (1 / ◯)</label>
+            <input type="number" id="target-scale" value="20" min="1">
         </div>
 
         <button id="calc-btn">寸法を一瞬で変換する！</button>
@@ -195,14 +181,13 @@
             <div class="result-value">変換後の図面上の長さ: <span id="res-converted" class="highlight">0</span> mm</div>
             
             <div style="margin-top: 15px; font-size: 12px; color: #7f8c8d; line-height: 1.4; border-top: 1px solid #bdc3c7; padding-top: 10px;">
-                💡 現場での手計算ミスを防止！このまま図面に書き込めます。
+                💡 拡大・縮小コピーされた中半端な図面縮尺（1/141など）にも完全対応！
             </div>
 
             <button id="copy-btn">この結果をコピーしてXで現場報告 📋</button>
         </div>
     </div>
 
-    <!-- 広告枠 -->
     <div class="ad-space-box">
         <div class="ad-label">Sponsored</div>
         <div class="ad-placeholder-text">
@@ -211,7 +196,6 @@
         </div>
     </div>
 
-    <!-- 【追加：ココアさんの身を守るためのお守り文字】 -->
     <div class="disclaimer-box">
         <div class="disclaimer-text">
             【ご利用上の注意】<br>
@@ -230,6 +214,7 @@
 
         calcBtn.addEventListener("click", () => {
             const drawingVal = parseFloat(document.getElementById("drawing-val").value) || 0;
+            // パルスの整数取得（記入型に合わせた安全処理）
             const currentScale = parseInt(document.getElementById("current-scale").value) || 1;
             const targetScale = parseInt(document.getElementById("target-scale").value) || 1;
 
@@ -241,7 +226,7 @@
             resReal.textContent = realSize.toLocaleString();
             resConverted.textContent = convertedSize.toFixed(1);
 
-            shareText = `CAD縮尺・寸法一瞬変換ツールで計算！1/${currentScale}の図面値${drawingVal}mmを、1/${targetScale}に変換したら【${convertedSize.toFixed(1)}mm】になりました！手計算のミスが無くなって現場で超役立つ！ #CAD変換ツール`;
+            shareText = `CAD縮尺・寸法一瞬変換ツールで計算！1/${currentScale}の図面値${drawingVal}mmを、1/${targetScale}に自動変換したら【${convertedSize.toFixed(1)}mm】になりました！拡大コピー図面でも計算ミスが無くなって現場で超便利！ #CAD変換ツール`;
         });
 
         copyBtn.addEventListener("click", () => {
