@@ -1,1 +1,0 @@
-# kentiku-syukusyaku-_7
