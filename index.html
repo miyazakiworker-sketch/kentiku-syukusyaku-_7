@@ -253,7 +253,40 @@
             resConverted.textContent = convertedSize.toFixed(1);
 
             shareText = `CAD縮尺・寸法一瞬変換ツールで計算！1/${currentScale}の図面値${drawingVal}mmを、1/${targetScale}に自動変換したら【${convertedSize.toFixed(1)}mm】になりました！拡大コピー図面でも計算ミスが無くなって現場で超便利！ #CAD変換ツール`;
-        });
+        });<!-- HTML側の追加イメージ -->
+<div class="tool-section" style="margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px;">
+  <h2>📐 【新機能】図面の縮尺 逆算ツール</h2>
+  <p>手元の定規で測った値から、現在の変態縮尺を割り出します。</p>
+
+  <label>① 図面に記載されている本来の寸法 (mm):</label><br>
+  <input type="number" id="realSize" placeholder="例: 3000" style="padding: 8px; width: 80%; max-width: 300px;"><br><br>
+
+  <label>② 手元の定規で測った長さ (mm):</label><br>
+  <input type="number" id="measuredSize" placeholder="例: 30" style="padding: 8px; width: 80%; max-width: 300px;"><br><br>
+
+  <button onclick="calculateReverseScale()" style="padding: 10px 20px; background: #0070f3; color: white; border: none; cursor: pointer; font-weight: bold;">縮尺を逆算する</button>
+
+  <div id="reverseResult" style="margin-top: 20px; font-size: 1.2rem; font-weight: bold; color: #ff007f;"></div>
+</div>
+
+<script>
+function calculateReverseScale() {
+  const real = parseFloat(document.getElementById('realSize').value);
+  const measured = parseFloat(document.getElementById('measuredSize').value);
+  const resultDiv = document.getElementById('reverseResult');
+
+  if (!real || !measured) {
+    resultDiv.innerText = "⚠️ どちらの数値も入力してください！";
+    return;
+  }
+
+  // 縮尺の分母を計算 (本来の寸法 ÷ 実測値)
+  const scaleDenominator = Math.round(real / measured);
+
+  resultDiv.innerHTML = `🎯 この図面の現在の縮尺は 【 1 / ${scaleDenominator} 】 です！<br><span style="font-size: 0.9rem; color: #555;">（1mmあたり実寸 ${scaleDenominator}mm）</span>`;
+}
+</script>
+
 
         copyBtn.addEventListener("click", () => {
             navigator.clipboard.writeText(shareText).then(() => {
