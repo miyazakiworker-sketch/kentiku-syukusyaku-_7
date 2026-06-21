@@ -1,305 +1,194 @@
 <!DOCTYPE html>
-<html lang="ja" translate="no">
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>現場の相棒！CAD縮尺・寸法一瞬変換ツール</title>
-    <style>
-        body {
-            background-color: #2c3e50;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-
-        .container {
-            background-color: white;
-            padding: 25px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            width: 100%;       
-            max-width: 440px;  
-            box-sizing: border-box;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: #e67e22; 
-            font-size: 19px;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #e67e22;
-            padding-bottom: 10px;
-        }
-
-        .input-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            font-size: 13px;
-            font-weight: bold;
-            color: #34495e;
-            width: 55%;
-        }
-
-        .input-group input {
-            width: 40%;
-            padding: 8px 12px;
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: right;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        #calc-btn {
-            background-color: #e67e22;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            width: 100%;
-            margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(230, 126, 34, 0.3);
-        }
-        #calc-btn:hover { background-color: #d35400; }
-
-        .result-box {
-            display: none; 
-            background-color: #ecf0f1;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        .result-title {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 15px;
-            margin-bottom: 10px;
-            border-left: 4px solid #e67e22;
-            padding-left: 8px;
-        }
-
-        .result-value {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #7f8c8d;
-        }
-
-        .highlight {
-            color: #e74c3c;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        #copy-btn {
-            background-color: #1da1f2;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 20px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .ad-space-box {
-            width: 100%;
-            max-width: 440px;
-            box-sizing: border-box;
-            background-color: #34495e;
-            border: 2px dashed #bdc3c7;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            color: #bdc3c7;
-            margin-bottom: 15px;
-        }
-        .ad-label { font-size: 11px; font-weight: bold; color: #bdc3c7; margin-bottom: 5px; }
-        .ad-placeholder-text { font-size: 12px; color: #bdc3c7; line-height: 1.4; }
-
-        .disclaimer-box {
-            max-width: 440px;
-            width: 100%;
-            text-align: left;
-            padding: 0 10px;
-            box-sizing: border-box;
-            margin-bottom: 15px; /* 看板リンクとのスキマ */
-        }
-        .disclaimer-text {
-            font-size: 11px;
-            color: #95a5a6;
-            line-height: 1.5;
-        }
-
-        /* 【追加：開発者看板リンクのデザイン】 */
-        .author-box {
-            max-width: 440px;
-            width: 100%;
-            text-align: center;
-        }
-        .author-link {
-            font-size: 12px;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        .author-link:hover {
-            color: #2980b9;
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAD縮尺・寸法一瞬変換ツール 2.0</title>
+  <style>
+    /* ココアさん仕様：PCは真ん中寄せ・スマホは100%フィット */
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+      background-color: #f4f7f6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      box-sizing: border-box;
+    }
+    h1 {
+      font-size: 1.4rem;
+      text-align: center;
+      color: #0070f3;
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+    h2 {
+      font-size: 1.1rem;
+      color: #111;
+      border-left: 4px solid #0070f3;
+      padding-left: 8px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+      font-size: 0.85rem;
+      display: block;
+      margin-top: 12px;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-top: 6px;
+      background-color: #fafafa;
+    }
+    input:focus {
+      border-color: #0070f3;
+      background-color: #fff;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0051b3;
+    }
+    .result {
+      margin-top: 15px;
+      padding: 14px;
+      background: #fff0f5;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #ff007f;
+      text-align: center;
+      min-height: 24px;
+      border: 1px dashed #ffb6c1;
+    }
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #666;
+      background: #eee;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 30px;
+      line-height: 1.5;
+    }
+    .footer-link {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 0.9rem;
+    }
+    .footer-link a {
+      color: #0070f3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .footer-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>CAD縮尺・寸法一瞬変換ツール</h1>
-        
-        <div class="input-group">
-            <label>① 図面上の計測値 (mm)</label>
-            <input type="number" id="drawing-val" value="50" min="0">
-        </div>
+<div class="container">
+  <h1>🏗️ CAD縮尺・寸法一瞬変換ツール 2.0</h1>
 
-        <div class="input-group">
-            <label>② 現在の図面の縮尺 (1 / ◯)</label>
-            <input type="number" id="current-scale" value="50" min="1">
-        </div>
+  <!-- 機能1：寸法から実寸を求める -->
+  <h2>📏 機能①：寸法から実寸を計算</h2>
+  <label>図面の縮尺の分母 (例: 1/141 なら「141」を入力)</label>
+  <input type="number" id="scaleInput" placeholder="例: 141" min="1">
+  
+  <label>図面上で測った寸法 (mm)</label>
+  <input type="number" id="drawingSize" placeholder="例: 50" min="0" step="any">
+  
+  <button id="calcNormalBtn">実寸を計算する</button>
+  <div id="normalResult" class="result">ここに結果が表示されます</div>
 
-        <div class="input-group">
-            <label>③ 変換したい目的の縮尺 (1 / ◯)</label>
-            <input type="number" id="target-scale" value="20" min="1">
-        </div>
 
-        <button id="calc-btn">寸法を一瞬で変換する！</button>
+  <!-- 機能2：縮尺の逆算（新機能） -->
+  <h2>📐 機能②：図面の縮尺を逆算</h2>
+  <label>① 図面に書かれている本来の寸法 (mm)</label>
+  <input type="number" id="realSize" placeholder="例: 3000" min="1">
 
-        <div id="result-box" class="result-box">
-            <div class="result-title">変換結果</div>
-            <div class="result-value">実際のリアルな長さ: <span id="res-real" class="highlight" style="color:#2ecc71;">0</span> mm</div>
-            <div class="result-value">変換後の図面上の長さ: <span id="res-converted" class="highlight">0</span> mm</div>
-            
-            <div style="margin-top: 15px; font-size: 12px; color: #7f8c8d; line-height: 1.4; border-top: 1px solid #bdc3c7; padding-top: 10px;">
-                💡 拡大・縮小コピーされた中半端な図面縮尺（1/141など）にも完全対応！
-            </div>
+  <label>② 手元の定規で測った長さ (mm)</label>
+  <input type="number" id="measuredSize" placeholder="例: 30" min="0" step="any">
 
-            <button id="copy-btn">この結果をコピーしてXで現場報告 📋</button>
-        </div>
-    </div>
+  <button id="calcReverseBtn">縮尺を逆算する</button>
+  <div id="reverseResult" class="result">ここに結果が表示されます</div>
 
-    <!-- 広告枠 -->
-    <div class="ad-space-box">
-        <div class="ad-label">Sponsored</div>
-        <div class="ad-placeholder-text">
-            ※当サイトは開発費・サーバー維持費のために広告を掲載予定です。<br>
-            応援よろしくお願いいたします！
-        </div>
-    </div>
 
-    <!-- 注意書き -->
-    <div class="disclaimer-box">
-        <div class="disclaimer-text">
-            【ご利用上の注意】<br>
-            本ツールは個人が開発した簡易計算用シミュレーターです。計算結果の正確性には万全を期しておりますが、実際の施工、発注、および実務で使用される際は必ずダブルチェックを行ってください。本ツールの利用によって生じた損害や不利益について、開発者は一切の責任を負いません。
-        </div>
-    </div>
+  <!-- プロ仕様の免責事項お守り -->
+  <div class="disclaimer">
+    【免責事項】本ツールは現場の計算補助用です。縮小印刷やコピーの倍率エラーにより、ミリ単位の誤差が発生する場合があります。最終的な発注・施工の際は、必ず設計図書の確定数値をご確認ください。本ツールの利用による損害の責任は負いかねます。
+  </div>
 
-    <!-- 【追加：ココアさんのX（Twitter）へ繋ぐ未来の看板】 -->
-    <div class="author-box">
-        <a class="author-link" href="https://x.com/cocoa_next7" target="_blank">
-            🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
-        </a>
-    </div>
-
-    <script>
-        const calcBtn = document.getElementById("calc-btn");
-        const resultBox = document.getElementById("result-box");
-        const resReal = document.getElementById("res-real");
-        const resConverted = document.getElementById("res-converted");
-        const copyBtn = document.getElementById("copy-btn");
-
-        let shareText = "";
-
-        calcBtn.addEventListener("click", () => {
-            const drawingVal = parseFloat(document.getElementById("drawing-val").value) || 0;
-            const currentScale = parseInt(document.getElementById("current-scale").value) || 1;
-            const targetScale = parseInt(document.getElementById("target-scale").value) || 1;
-
-            const realSize = drawingVal * currentScale;
-            const convertedSize = realSize / targetScale;
-
-            resultBox.style.display = "block";
-
-            resReal.textContent = realSize.toLocaleString();
-            resConverted.textContent = convertedSize.toFixed(1);
-
-            shareText = `CAD縮尺・寸法一瞬変換ツールで計算！1/${currentScale}の図面値${drawingVal}mmを、1/${targetScale}に自動変換したら【${convertedSize.toFixed(1)}mm】になりました！拡大コピー図面でも計算ミスが無くなって現場で超便利！ #CAD変換ツール`;
-        });<!-- HTML側の追加イメージ -->
-<div class="tool-section" style="margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px;">
-  <h2>📐 【新機能】図面の縮尺 逆算ツール</h2>
-  <p>手元の定規で測った値から、現在の変態縮尺を割り出します。</p>
-
-  <label>① 図面に記載されている本来の寸法 (mm):</label><br>
-  <input type="number" id="realSize" placeholder="例: 3000" style="padding: 8px; width: 80%; max-width: 300px;"><br><br>
-
-  <label>② 手元の定規で測った長さ (mm):</label><br>
-  <input type="number" id="measuredSize" placeholder="例: 30" style="padding: 8px; width: 80%; max-width: 300px;"><br><br>
-
-  <button onclick="calculateReverseScale()" style="padding: 10px 20px; background: #0070f3; color: white; border: none; cursor: pointer; font-weight: bold;">縮尺を逆算する</button>
-
-  <div id="reverseResult" style="margin-top: 20px; font-size: 1.2rem; font-weight: bold; color: #ff007f;"></div>
+  <!-- ココアさんの無敵の公式看板リンク -->
+  <div class="footer-link">
+    開発者：<a href="https://x.com" target="_blank">ココア (@cocoa_next7)</a>
+  </div>
 </div>
 
 <script>
-function calculateReverseScale() {
-  const real = parseFloat(document.getElementById('realSize').value);
-  const measured = parseFloat(document.getElementById('measuredSize').value);
-  const resultDiv = document.getElementById('reverseResult');
+  // 機能①の処理
+  document.getElementById('calcNormalBtn').addEventListener('click', function() {
+    const scale = parseFloat(document.getElementById('scaleInput').value);
+    const drawing = parseFloat(document.getElementById('drawingSize').value);
+    const resultDiv = document.getElementById('normalResult');
 
-  if (!real || !measured) {
-    resultDiv.innerText = "⚠️ どちらの数値も入力してください！";
-    return;
-  }
+    if (!scale || !drawing || scale <= 0 || drawing <= 0) {
+      resultDiv.innerText = "⚠️ 正しい数値を入力してください";
+      return;
+    }
 
-  // 縮尺の分母を計算 (本来の寸法 ÷ 実測値)
-  const scaleDenominator = Math.round(real / measured);
+    const realDimensions = scale * drawing;
+    resultDiv.innerText = "🎯 実寸: " + realDimensions.toLocaleString() + " mm";
+  });
 
-  resultDiv.innerHTML = `🎯 この図面の現在の縮尺は 【 1 / ${scaleDenominator} 】 です！<br><span style="font-size: 0.9rem; color: #555;">（1mmあたり実寸 ${scaleDenominator}mm）</span>`;
-}
+  // 機能②（逆算）の処理
+  document.getElementById('calcReverseBtn').addEventListener('click', function() {
+    const real = parseFloat(document.getElementById('realSize').value);
+    const measured = parseFloat(document.getElementById('measuredSize').value);
+    const resultDiv = document.getElementById('reverseResult');
+
+    if (!real || !measured || real <= 0 || measured <= 0) {
+      resultDiv.innerText = "⚠️ 両方に正しい数値を入力してください";
+      return;
+    }
+
+    // 縮尺の分母を計算（四捨五入してきれいな整数にする）
+    const scaleDenominator = Math.round(real / measured);
+
+    resultDiv.innerHTML = "🎯 現在の縮尺は 【 1 / " + scaleDenominator + " 】 です！";
+  });
 </script>
 
-
-        copyBtn.addEventListener("click", () => {
-            navigator.clipboard.writeText(shareText).then(() => {
-                copyBtn.textContent = "コピー完了！そのままXに貼り付けられます！ ✅";
-                copyBtn.style.backgroundColor = "#2ecc71";
-                setTimeout(() => {
-                    copyBtn.textContent = "この結果をコピーしてXで現場報告 📋";
-                    copyBtn.style.backgroundColor = "#1da1f2";
-                }, 2000);
-            }).catch(err => {
-                alert("コピーに失敗しました。");
-            });
-        });
-    </script>
 </body>
 </html>
